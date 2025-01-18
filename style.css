@@ -19,27 +19,46 @@ body {
     border-radius: 10px;
 }
 
-.row {
+.row,
+#zeropointContainer,
+#equalsContainer {
     display: flex;
     /* justify-content: space-evenly; */
     flex: 1;
+    gap: 5px;
 }
 
-.button {
+button {
     /* display: flex; */
     flex: 1;
     border-radius: 50%;
     /* width: 100%; */
 }
 
-#screen {
+#screen-container {
     /* border: 2px solid blue; */
     background-color: rgb(219, 213, 213);
     height: 100px;
     box-sizing: border-box;
     /* padding: 10px; */
-    margin: 20px;
+    /* margin: 20px; */
+    margin: 20px auto;
     border-radius: 10px;
+    /* font-size: 40px; */
+    /* text-align: right; */
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 315px;
+    /* flex-wrap: nowrap; */
+}
+
+#screen1 {
+    font-size: 40px;
+    font-family: system-ui;
+    overflow: auto;
+    /* min-width: 0; */
 }
 
 #keyboard {
@@ -48,15 +67,9 @@ body {
     flex: 1;
     flex-direction: column;
     margin: 10px 20px 20px;
-    /* gap: 10px; */
+    gap: 5px;
     /* border-radius: 5px; */
 }
-
-#zeropointContainer, #equalsContainer {
-    display: flex;
-    flex: 1;
-}
-
 
 #equalsBtn {
     border-radius: 20px;
