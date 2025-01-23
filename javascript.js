@@ -1,9 +1,13 @@
 let num1 = "", num2 = "";
-let input = "";
 let operator = "";
-let answer = "";
+// let answer = "";
 let storeInNum1 = true;
-let clearDisplay = false;
+let clearDisplay = true;
+const numBtns = document.querySelectorAll(".digit");
+const opBtns = document.querySelectorAll(".op");
+const equalsBtn = document.querySelector("#equalsBtn");
+const acBtn = document.querySelector("#AC");
+const screen = document.querySelector("#screen1");
 
 function add(a, b) {
     return a + b;
@@ -40,63 +44,68 @@ function operate(a, b, op) {
     }
 }
 
-const buttons = document.querySelectorAll("button");
-const screen = document.querySelector("#screen1");
-screen.textContent = `${input}`;
-buttons.forEach((button) => {
-   button.addEventListener("click", () => {
-        inputHandler(button);
-   });
+/** Event listeners */
+
+numBtns.forEach((button) => {
+    button.addEventListener("click", function(e) {
+        digitHandler(e);
+    });
 });
 
-function inputHandler(button) {
-    switch(button.textContent) {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            displayToScreen(button.textContent);
-            storeOperands(button.textContent);
-            break;
-        case '+':
-        case '-':
-        case 'x':
-        case '÷':
-            displayToScreen(button.textContent);
-            process(button.textContent);
-            break;
+opBtns.forEach((button) => {
+    button.addEventListener("click", function(e) {
+        opHandler(e);
+    })
+});
+
+equalsBtn.addEventListener("click", () => {
+    if (num1 !== '' && num2 !== '') {
+        // getAnswer();
+        displayToScreen(getAnswer());
     }
-    
+});
+
+acBtn.addEventListener("click", () => {
+    clearAll();
+});
+
+
+/** Event handlers */
+
+function digitHandler(e) {
+    displayToScreen(e.target.textContent);
+    storeOperands(e.target.textContent);
 }
 
-function displayToScreen(digit){
+function opHandler(e) {
+    // processOp(e.target.textContent);
+    // displayToScreen(processOp(e.target.textContent) + e.target.textContent);
+    displayToScreen(processOp(e.target.textContent));
+}
+
+/** Utility functions */
+
+function displayToScreen(number){
     if (clearDisplay) {
         screen.textContent = "";
         clearDisplay = false;
     }
-    screen.textContent += `${digit}`;
+    
+    screen.textContent += `${number}`;
 }
 
-function process(op) {
+function processOp(op) {
+    // let ans = "";
     if (num1 !== "" && num2 === "") {
-        operator = op;
         storeInNum1 = false;
-        // clearDisplay = true;
-        console.log(operator);
-    } else if (num1 !== "" && num2 !== "") {
-        answer = operate(parseInt(num1), parseInt(num2), operator);
-        screen.textContent = "";
-        displayToScreen(answer);
-        storeInNum1 = true;
-        operator = "";
         clearDisplay = true;
+    } else if (num1 !== "" && num2 !== "") {
+        getAnswer();
+        // displayToScreen(`${answer}`);
     }
+    operator = op;
+    console.log(operator);
+    return num1 + operator;
 }
 
 function storeOperands(digit) {
@@ -107,4 +116,22 @@ function storeOperands(digit) {
         num2 += digit;
         console.log(`num2:${num2}`);
     }
+}
+
+function getAnswer() {
+    // answer = operate(parseInt(num1), parseInt(num2), operator);
+    num1 = operate(parseInt(num1), parseInt(num2), operator).toString();
+    num2 = "";
+    // operator = "";
+    screen.textContent = "";
+    return num1;
+}
+
+function clearAll() {
+    num1 = "";
+    num2 = "";
+    storeInNum1 = true;
+    operator = "";
+    screen.textContent = "0";
+    clearDisplay = true;
 }
