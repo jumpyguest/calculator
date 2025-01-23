@@ -1,16 +1,18 @@
 let num1 = "", num2 = "";
 let operator = "";
-// let answer = "";
 let storeInNum1 = true;
 let clearDisplay = true;
 const numBtns = document.querySelectorAll(".digit");
 const opBtns = document.querySelectorAll(".op");
 const equalsBtn = document.querySelector("#equalsBtn");
 const acBtn = document.querySelector("#AC");
+const percentBtn = document.querySelector("#percent");
 const screen = document.querySelector("#screen1");
+const delBtn = document.querySelector("#delete");
+const pointBtn = document.querySelector("#point");
 
 function add(a, b) {
-    return a + b;
+    return +a + +b;
 }
 
 function subtract(a, b) {
@@ -59,28 +61,83 @@ opBtns.forEach((button) => {
 });
 
 equalsBtn.addEventListener("click", () => {
-    if (num1 !== '' && num2 !== '') {
-        // getAnswer();
-        displayToScreen(getAnswer());
-    }
+    equalsHandler();
 });
 
 acBtn.addEventListener("click", () => {
     clearAll();
 });
 
+percentBtn.addEventListener("click", () => {
+    percentHandler();
+});
+
+delBtn.addEventListener("click", () => {
+    deleteHandler();
+});
+
+pointBtn.addEventListener("click", () => {
+    pointHandler();
+});
 
 /** Event handlers */
 
 function digitHandler(e) {
-    displayToScreen(e.target.textContent);
     storeOperands(e.target.textContent);
+    displayToScreen(e.target.textContent);
 }
 
 function opHandler(e) {
-    // processOp(e.target.textContent);
-    // displayToScreen(processOp(e.target.textContent) + e.target.textContent);
-    displayToScreen(processOp(e.target.textContent));
+    processOp(e.target.textContent);
+    displayToScreen(num1 + e.target.textContent);
+}
+
+function equalsHandler() {
+    if (num1 !== '' && num2 !== '') {
+        getAnswer();
+        displayToScreen(num1);
+    }
+}
+
+function percentHandler() {
+    clearDisplay = true;
+    if (storeInNum1 || operator === "") {
+        num1 /= 100;
+        displayToScreen(num1);
+    } else if (operator !== "") {
+        num2 /= 100;
+        displayToScreen(num1 + operator + num2)
+    }
+}
+
+function deleteHandler() {
+    clearDisplay = true;
+    if (storeInNum1) {
+        if (num1.toString().length === 1) {
+            num1 = "";
+            displayToScreen(0);
+            clearDisplay = true;
+        } else {
+            num1 = num1.toString().slice(0, -1);
+            displayToScreen(num1);
+        }
+        console.log(`num1:${num1}`);
+    } else if (num2 === "" && operator !== "") {
+        displayToScreen(num1);
+        operator = "";
+        storeInNum1 = true;
+    } else {
+        num2 = num2.toString().slice(0, -1);
+        displayToScreen(num1 + operator + num2)
+        console.log(`num2:${num2}`);
+    }
+}
+
+function pointHandler() {
+    if ((storeInNum1 && num1.indexOf(".") === -1) || (!storeInNum1 && num2.indexOf(".") === -1)) {
+        storeOperands(".");
+        displayToScreen(".");
+    } 
 }
 
 /** Utility functions */
@@ -95,21 +152,24 @@ function displayToScreen(number){
 }
 
 function processOp(op) {
-    // let ans = "";
     if (num1 !== "" && num2 === "") {
         storeInNum1 = false;
         clearDisplay = true;
     } else if (num1 !== "" && num2 !== "") {
         getAnswer();
-        // displayToScreen(`${answer}`);
     }
     operator = op;
     console.log(operator);
-    return num1 + operator;
 }
 
 function storeOperands(digit) {
-    if (storeInNum1 === true) {
+    if (operator === "" && storeInNum1 === false) {
+        clearDisplay = true;
+        storeInNum1 = true;
+        num1 = "";
+    }
+
+    if (storeInNum1) {
         num1 += digit;
         console.log(`num1:${num1}`);
     } else {
@@ -119,12 +179,10 @@ function storeOperands(digit) {
 }
 
 function getAnswer() {
-    // answer = operate(parseInt(num1), parseInt(num2), operator);
-    num1 = operate(parseInt(num1), parseInt(num2), operator).toString();
+    num1 = +parseFloat(operate(num1, num2, operator).toFixed(11)).toString();
     num2 = "";
-    // operator = "";
-    screen.textContent = "";
-    return num1;
+    operator = "";
+    clearDisplay = true;
 }
 
 function clearAll() {
