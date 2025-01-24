@@ -75,8 +75,18 @@ button {
     border-radius: 20px;
 }
 
+#AC {
+    background: rgb(203, 240, 227);
+}
 
-/* .btnBox {
-    display: flex;
-    flex: 1;
-} */
+#equalsBtn {
+    background: rgb(214, 207, 112);
+}
+
+.op, .function {
+    background: rgb(216, 221, 190);
+}
+
+.digit {
+    background: rgba(187, 155, 155, 0.87)
+}

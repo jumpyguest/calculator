@@ -120,7 +120,8 @@ function percentHandler() {
 function deleteHandler() {
     clearDisplay = true;
     if (storeInNum1) {
-        if (num1.toString().length == 1) {
+        if ((num1.toString().length == 1) || (num1.toString().length == 2) && (signedNum1)) {
+            signedNum1 = signedNum1 && false;
             num1 = "";
             displayToScreen();
             clearDisplay = true;
@@ -134,7 +135,12 @@ function deleteHandler() {
         displayToScreen();
         storeInNum1 = true;
     } else {
-        num2 = num2.toString().slice(0, -1);
+        if ((num2.toString().length == 2) && (signedNum2)) {
+            signedNum2 = signedNum2 && false;
+            num2 = "";
+        } else {
+            num2 = num2.toString().slice(0, -1);
+        }
         displayToScreen()
         console.log(`num2:${num2}`);
     }
@@ -148,7 +154,7 @@ function pointHandler() {
 }
 
 function signHandler() {
-    if (operator === "" && storeInNum1) {
+    if (operator === "" && storeInNum1 && num1 !== "") {
         if (!signedNum1) {
             signedNum1 = true;
             num1 = `-${num1}`;
@@ -193,6 +199,10 @@ function displayToScreen() {
     }
     if (num1 === "") {
         screen.textContent = 0;
+    } else if (num1 === Infinity) {
+        num1 = "";
+        storeInNum1 = true;
+        screen.textContent = "why?";
     } else {
         screen.textContent = displayNum1 + operator + displayNum2;
     }
@@ -204,6 +214,8 @@ function processOp(op) {
         clearDisplay = true;
     } else if (num1 !== "" && num2 !== "") {
         getAnswer();
+    } else {
+        return;
     }
     operator = op;
     console.log(operator);
