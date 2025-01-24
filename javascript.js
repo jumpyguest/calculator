@@ -12,6 +12,7 @@ const percentBtn = document.querySelector("#percent");
 const delBtn = document.querySelector("#delete");
 const pointBtn = document.querySelector("#point");
 const signBtn = document.querySelector("#sign");
+const allBtns = document.querySelectorAll("button");
 const screen = document.querySelector("#screen1");
 
 function add(a, b) {
@@ -51,6 +52,15 @@ function operate(a, b, op) {
 
 /** Event listeners */
 
+allBtns.forEach((button) => {
+    button.addEventListener("mouseover", () => {
+        button.style.opacity = "0.8"; 
+    });
+    button.addEventListener("mouseout", () => {
+        button.style.opacity = "1";
+    });
+});
+
 numBtns.forEach((button) => {
     button.addEventListener("click", function(e) {
         digitHandler(e);
@@ -60,7 +70,7 @@ numBtns.forEach((button) => {
 opBtns.forEach((button) => {
     button.addEventListener("click", function(e) {
         opHandler(e);
-    })
+    });
 });
 
 equalsBtn.addEventListener("click", () => {
@@ -246,19 +256,19 @@ function getAnswer() {
         num2 = 0;
     }
     num1 = +parseFloat(operate(num1, num2, operator).toFixed(11)).toString();
-    num2 = "";
-    operator = "";
-    clearDisplay = true;
-    signedNum1 = false;
-    signedNum2 = false;
+    initializeNum2();
 }
 
 function clearAll() {
     num1 = "";
-    num2 = "";
+    initializeNum2();
     storeInNum1 = true;
-    operator = "";
     screen.textContent = "0";
+}
+
+function initializeNum2() {
+    num2 = "";
+    operator = "";
     clearDisplay = true;
     signedNum1 = false;
     signedNum2 = false;

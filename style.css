@@ -7,7 +7,6 @@ body {
     background-color: rgb(45, 49, 53);
     justify-content: center;
     align-items: center;
-    /* margin: 0; */
 }
 
 #container {
@@ -23,56 +22,40 @@ body {
 #zeropointContainer,
 #equalsContainer {
     display: flex;
-    /* justify-content: space-evenly; */
     flex: 1;
     gap: 5px;
 }
 
 button {
-    /* display: flex; */
     flex: 1;
     border-radius: 50%;
-    /* width: 100%; */
 }
 
 #screen-container {
-    /* border: 2px solid blue; */
     background-color: rgb(219, 213, 213);
     height: 100px;
     box-sizing: border-box;
-    /* padding: 10px; */
-    /* margin: 20px; */
     margin: 20px auto;
     border-radius: 10px;
-    /* font-size: 40px; */
-    /* text-align: right; */
     padding: 15px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 315px;
-    /* flex-wrap: nowrap; */
 }
 
 #screen1 {
     font-size: 40px;
     font-family: system-ui;
     overflow: auto;
-    /* min-width: 0; */
 }
 
 #keyboard {
     display: flex;
-    /* border: 2px solid blue; */
     flex: 1;
     flex-direction: column;
     margin: 10px 20px 20px;
     gap: 5px;
-    /* border-radius: 5px; */
-}
-
-#equalsBtn {
-    border-radius: 20px;
 }
 
 #AC {
@@ -80,6 +63,7 @@ button {
 }
 
 #equalsBtn {
+    border-radius: 20px;
     background: rgb(214, 207, 112);
 }
 
@@ -88,5 +72,5 @@ button {
 }
 
 .digit {
-    background: rgba(187, 155, 155, 0.87)
+    background: rgb(206, 205, 205)
 }
