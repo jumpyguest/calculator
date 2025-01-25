@@ -53,59 +53,34 @@ function operate(a, b, op) {
 /** Event listeners */
 
 allBtns.forEach((button) => {
-    button.addEventListener("mouseover", () => {
-        button.style.opacity = "0.8"; 
-    });
-    button.addEventListener("mouseout", () => {
-        button.style.opacity = "1";
-    });
+    button.addEventListener("mouseover", () => button.style.opacity = "0.8");
+    button.addEventListener("mouseout", () => button.style.opacity = "1");
 });
 
 numBtns.forEach((button) => {
-    button.addEventListener("click", function(e) {
-        digitHandler(e);
-    });
+    button.addEventListener("click", () => digitHandler(button.textContent));
 });
 
 opBtns.forEach((button) => {
-    button.addEventListener("click", function(e) {
-        opHandler(e);
-    });
+    button.addEventListener("click", () => opHandler(button.textContent));
 });
 
-equalsBtn.addEventListener("click", () => {
-    equalsHandler();
-});
-
-acBtn.addEventListener("click", () => {
-    clearAll();
-});
-
-percentBtn.addEventListener("click", () => {
-    percentHandler();
-});
-
-delBtn.addEventListener("click", () => {
-    deleteHandler();
-});
-
-pointBtn.addEventListener("click", () => {
-    pointHandler();
-});
-
-signBtn.addEventListener("click", () => {
-    signHandler();
-});
+equalsBtn.addEventListener("click", equalsHandler);
+acBtn.addEventListener("click", clearAll);
+percentBtn.addEventListener("click", percentHandler);
+delBtn.addEventListener("click", deleteHandler);
+pointBtn.addEventListener("click", pointHandler);
+signBtn.addEventListener("click", signHandler);
 
 /** Event handlers */
 
 function digitHandler(e) {
-    storeOperands(e.target.textContent);
+    storeOperands(e);
     displayToScreen();
 }
 
 function opHandler(e) {
-    processOp(e.target.textContent);
+    processOp(e);
     displayToScreen();
 }
 
@@ -139,7 +114,6 @@ function deleteHandler() {
             num1 = num1.toString().slice(0, -1);
             displayToScreen();
         }
-        console.log(`num1:${num1}`);
     } else if (num2 === "" && operator !== "") {
         operator = "";
         displayToScreen();
@@ -152,7 +126,6 @@ function deleteHandler() {
             num2 = num2.toString().slice(0, -1);
         }
         displayToScreen()
-        console.log(`num2:${num2}`);
     }
 }
 
@@ -194,14 +167,8 @@ function signHandler() {
 /** Utility functions */
 
 function displayToScreen() {
-    let displayNum1 = num1;
-    let displayNum2 = num2;
-    if (signedNum1) {
-        displayNum1 = `(${num1})`;
-    }
-    if (signedNum2) {
-        displayNum2 = `(${num2})`;
-    }
+    let displayNum1 = signedNum1 ? `(${num1})` : num1;
+    let displayNum2 = signedNum2 ? `(${num2})`: num2;
 
     if (clearDisplay) {
         screen.textContent = "";
@@ -228,7 +195,6 @@ function processOp(op) {
         return;
     }
     operator = op;
-    console.log(operator);
 }
 
 function storeOperands(digit) {
@@ -241,10 +207,8 @@ function storeOperands(digit) {
 
     if (storeInNum1) {
         num1 += digit;
-        console.log(`num1:${num1}`);
     } else {
         num2 += digit;
-        console.log(`num2:${num2}`);
     }
 }
 
